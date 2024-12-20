@@ -1,34 +1,56 @@
 import React, { useState } from 'react';
 
-const PokemonCard = ({ name, types, sprite, stats }) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
+const PokemonCard = ({ sprite, name, stats }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleCardClick = () => {
+    setIsFlipped(!isFlipped);
+  };
 
   return (
-    <div className="relative group w-full max-w-xs p-4 border-4 border-gray-300 rounded-lg shadow-lg bg-white hover:bg-blue-50 transition-all duration-300">
-      {/* Pokémon Image */}
-      <div className="w-full h-48 mb-4 bg-gray-200 rounded-md overflow-hidden flex justify-center items-center transition-transform duration-300 group-hover:scale-105">
-        <img
-          src={sprite}
-          alt={name}
-          className={`transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-          onLoad={() => setImageLoaded(true)}
-          loading="lazy"
-        />
-      </div>
+    <div className="w-full h-64 perspective">
+      <div
+        className={`w-full h-full relative transform-style-3d transition-transform duration-500 ${isFlipped ? 'rotate-y-180' : ''}`}
+        onClick={handleCardClick}
+      >
+        {/* Front side of the card */}
+        <div className="absolute w-full h-full backface-hidden bg-gray-200 rounded-md overflow-hidden flex justify-center items-center">
+          <img
+            className="w-full h-full object-cover"
+            src={sprite}
+            alt={name}
+            loading="lazy"
+          />
+        </div>
 
-      {/* Pokémon Type */}
-      <div className="mb-4 text-center text-sm font-semibold text-gray-600">
-        {types.join(', ')}
-      </div>
+        {/* Back side of the card (showing Pokémon stats) */}
+        <div className="absolute w-full h-full backface-hidden bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500 rounded-md p-6 text-white flex flex-col justify-between items-center transform rotate-y-180 shadow-xl">
+          {/* Pokémon Name */}
+          <h3 className="font-extrabold text-3xl text-center mb-4 text-shadow-lg">{name}</h3>
 
-      {/* Hover Details */}
-      <div className="absolute inset-0 bg-blue-600 bg-opacity-75 text-white flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 rounded-md">
-        <div className="text-center">
-          <h3 className="text-lg font-bold">{name}</h3>
-          <div className="text-sm">
-            <p>HP: {stats.hp}</p>
-            <p>Attack: {stats.attack}</p>
-            <p>Defense: {stats.defense}</p>
+          {/* Stats Section */}
+          <div className="flex flex-col items-center w-full space-y-4">
+            <div className="flex items-center space-x-2">
+              {/* HP Icon & Stat */}
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-6 h-6 text-white" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h2m4 0h2m4 0h2m-9 4h2m2 0h2m2 0h2m-7-8h2m2 0h2m2 0h2M3 8h18M3 16h18"></path>
+              </svg>
+              <p className="text-2xl font-semibold">{stats.hp}</p>
+            </div>
+            <div className="flex items-center space-x-2">
+              {/* Attack Icon & Stat */}
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-6 h-6 text-white" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+              <p className="text-2xl font-semibold">{stats.attack}</p>
+            </div>
+            <div className="flex items-center space-x-2">
+              {/* Defense Icon & Stat */}
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-6 h-6 text-white" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12h18"></path>
+              </svg>
+              <p className="text-2xl font-semibold">{stats.defense}</p>
+            </div>
           </div>
         </div>
       </div>

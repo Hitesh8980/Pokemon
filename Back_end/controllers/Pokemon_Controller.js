@@ -3,7 +3,7 @@ const Pokemon = require("../models/Pokemon_model");
 // Get all Pokemon with pagination and filtering
 const getAllPokemon = async (req, res, next) => {
   try {
-    const { page = 1, limit = 10, search = "", type = "" } = req.query;
+    const { page = 1, limit = 12, search = "", type = "" } = req.query;
     const query = {};
 
     if (search) query.name = { $regex: search, $options: "i" };

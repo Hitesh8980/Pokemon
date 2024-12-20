@@ -1,3 +1,71 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+body {
+    font-family: 'Press Start 2P', cursive; 
+    background: url('path-to-pokemon-world-background.jpg') no-repeat center center fixed;
+    background-size: cover;
+  }
+  
+  button {
+    font-family: 'Fredoka One', sans-serif;
+    background-color: #ffcb05; 
+    color: #ff0000; 
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #ff4800; 
+    cursor: pointer;
+  }
+  
+  header {
+    background-color: #ff0000; 
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  header h1 {
+    font-family: 'Press Start 2P', cursive;
+    color: #ffffff;
+    font-size: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+  }
+  
+  footer {
+    background-color: #333333; 
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  footer p {
+    font-size: 14px;
+  }
+
+  .perspective {
+    perspective: 1000px; 
+  }
+  
+  .transform-style-3d {
+    transform-style: preserve-3d; 
+  }
+  
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden; 
+  }
+  
+  img {
+    transition: opacity 0.3s ease; 
+  }
+  
