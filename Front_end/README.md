@@ -12,7 +12,7 @@ Pokémon Explorer is a web application that allows users to explore and filter t
 - Beautiful and clean UI with a Pokémon-inspired theme.
 
 ## Live Demo
-You can access the live demo of the Pokémon Explorer web application [here](https://pokemonexplorer-igwl.onrender.com).
+You can access the live demo of the Pokémon Explorer web application [here](https://pokemonexp.netlify.app/).
 
 
 ## Technologies Used
