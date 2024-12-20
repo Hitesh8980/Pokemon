@@ -17,7 +17,7 @@ const App = () => {
         </Routes>
 
         <footer className="bg-gray-800 text-white py-4 text-center mt-8">
-          {/* <p>© 2024 Pokemon Explorer. All Rights Reserved.</p> */}
+          <p>© 2024 Pokemon Explorer. All Rights Reserved.</p>
         </footer>
       </div>
     </Router>
