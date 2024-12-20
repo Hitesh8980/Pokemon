@@ -1,70 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useStateContext } from '../context/Statecontext';
 import PokemonGrid from '../components/PokemonGrid';
 import PokemonFilter from '../components/PokemonFIlter';
+import useFetch from '../hooks/useFetch';
+import '../index.css'
+
 
 const Home = () => {
-  const [pokemons, setPokemons] = useState([]);
+  const { searchQuery, setSearchQuery, selectedTypes, setSelectedTypes, currentPage, setCurrentPage } = useStateContext();
+  const { data: pokemonsData, loading, error } = useFetch('http://localhost:5000/pokemon/');
   const [types, setTypes] = useState([]);
-  const [selectedTypes, setSelectedTypes] = useState([]);
 
   useEffect(() => {
-    // Fetch Pokémon data
-    const fetchPokemons = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/pokemon/');
-        const data = await response.json();
-        const pokemonDetails = await Promise.all(
-          data.results.map(async (pokemon) => {
-            const res = await fetch(pokemon.url);
-            return res.json();
-          })
-        );
-        setPokemons(
-          pokemonDetails.map((p) => ({
-            id: p.id,
-            name: p.name,
-            types: p.types.map((t) => t.type.name),
-            sprite: p.sprites.front_default,
-          }))
-        );
-      } catch (err) {
-        console.error('Error fetching Pokémon:', err);
-      }
-    };
+    if (pokemonsData) {
+      setTypes([...new Set(pokemonsData.pokemon.flatMap(p => p.types))]);
+    }
+  }, [pokemonsData]);
 
-    // Fetch Types
-    const fetchTypes = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/pokemon/');
-        const data = await response.json();
-        setTypes(data.results.map((type) => type.name));
-      } catch (err) {
-        console.error('Error fetching types:', err);
-      }
-    };
+  const filteredPokemons = pokemonsData?.pokemon
+    .filter(pokemon =>
+      pokemon.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      (selectedTypes.length === 0 || pokemon.types.some(type => selectedTypes.includes(type)))
+    ) || [];
 
-    fetchPokemons();
-    fetchTypes();
-  }, []);
+  const handleSearch = (event) => setSearchQuery(event.target.value);
+  const handleTypeSelect = (selected) => setSelectedTypes(selected);
 
-  const handleTypeSelect = (selected) => {
-    setSelectedTypes(selected);
-  };
-
-  const filteredPokemons = pokemons.filter((pokemon) =>
-    selectedTypes.length === 0
-      ? true
-      : pokemon.types.some((type) => selectedTypes.includes(type))
-  );
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error fetching Pokémon data</div>;
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <PokemonFilter
-        availableTypes={types}
-        selectedTypes={selectedTypes}
-        onTypeSelect={handleTypeSelect}
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={handleSearch}
+        placeholder="Search Pokémon"
+        className="p-2 mb-4"
       />
-      <PokemonGrid pokemons={filteredPokemons} />
+      <PokemonFilter availableTypes={types} selectedTypes={selectedTypes} onTypeSelect={handleTypeSelect} />
+      <PokemonGrid pokemons={filteredPokemons} isLoading={loading} />
     </div>
   );
 };
