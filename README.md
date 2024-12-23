@@ -17,7 +17,7 @@
 ## Live Demo
 
 You can try the **Pokemon Explorer** live here:  
-**[Pokemon Explorer - Live Demo](https://pokemonexp.netlify.app/)** (Replace with your live project link, e.g., from Netlify, Vercel, etc.)
+**[Pokemon Explorer - Live Demo](https://pokemonexp.netlify.app/)** 
 
 ---
 
